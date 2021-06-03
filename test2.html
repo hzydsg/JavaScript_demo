@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>测试三</title>
+</head>
+<body>
+    <span>你爱好的运动是?</span>
+    <input type="checkbox" name="select" id="select">全选/全不选
+    <br>
+    <input type="checkbox" name="sing" id="sing" class="hobby">唱歌
+    <input type="checkbox" name="read" id="read" class="hobby">读书
+    <input type="checkbox" name="travel" id="travel" class="hobby">旅行
+    <input type="checkbox" name="running" id="running" class="hobby">运动
+    <br>
+    <input type="button" value="全选" id="selectAll">
+    <input type="button" value="全不选" id="selectNone">
+    <input type="button" value="反选" id="disSelect">
+    <input type="button" value="提交" id="commit">
+
+    <script>
+         let checkboxs=document.getElementsByClassName("hobby");
+         let select1=document.getElementById("select");
+        /*
+        全选功能的实现
+        */
+        function selectAll(idStr){
+            let selectAll=document.getElementById(idStr);
+            selectAll.onclick=function(){
+               
+                for(let i=0;i<checkboxs.length;i++){
+                    checkboxs[i].checked=true;
+                }
+
+                select1.checked=true;
+            }
+        }
+        selectAll("selectAll");
+
+        /*
+        全不选功能的实现
+        */
+        function selectNone(idStr){
+            let selectNone=document.getElementById(idStr);
+            selectNone.onclick=function(){
+                for(let i=0;i<checkboxs.length;i++){
+                    checkboxs[i].checked=false;
+                }
+               
+                select1.checked=false;
+            }
+        }
+        selectNone("selectNone");
+
+
+        /*
+        反选功能的实现
+        */
+
+        function disSelect(idStr){
+            let all=0;
+            let disSelect=document.getElementById(idStr);
+            disSelect.onclick=function(){
+                for(let i=0;i<checkboxs.length;i++){
+                    checkboxs[i].checked=!checkboxs[i].checked;
+                    if(checkboxs[i].checked){
+                        all++;
+                    }
+                }
+                if(all==checkboxs.length){
+                    select1.checked=true;
+                }
+            }
+        }
+        disSelect("disSelect");
+
+        /*
+        点击复选框全选
+        */
+
+        function select(idStr){
+            let select=document.getElementById(idStr);
+            
+            select.onclick=function(){
+            if(select.checked){
+                for(let i=0;i<checkboxs.length;i++){
+                    checkboxs[i].checked=true;
+                }
+            }
+            else{
+                for(let i=0;i<checkboxs.length;i++){
+                        checkboxs[i].checked=false;
+                }
+            }
+            }
+           
+        }
+
+        select("select");
+
+        /*
+        点击提交
+        */
+       function commit(idStr){
+            let commit=document.getElementById(idStr);
+            commit.onclick=function(){
+                for(let i=0;i<checkboxs.length;i++){
+                    if(checkboxs[i].checked){
+                      alert(checkboxs[i].nextSibling.nodeValue);
+                    }
+                }
+            }
+       }
+
+       commit("commit");
+
+       /*
+       如果上面四个复选框都没选中,它上面的全选框也不应该选中
+       如果上面四个复选框都选中了,上面的全选框应该要选中。
+       */
+
+    function item(){
+        let all=0;
+        for(let i=0;i<checkboxs.length;i++){
+            
+            checkboxs[i].onclick=function(){
+               
+                if(checkboxs[i].checked){
+                    all++;
+                    if(all==checkboxs.length){
+                        select1.checked=true;
+                    }
+                }
+                else{
+                    all--;
+                    let select=document.getElementById("select");
+                    select1.checked=false;
+                }
+            } 
+        }
+    }
+
+    item();
+    </script>
+</body>
+</html>
