@@ -24,7 +24,7 @@
             height: 50px;
             line-height: 50px;
             text-align: center;
-            border-radius:50%;
+            border-radius:0px 50% 50% 0px;
             border: 1px solid black;
             display: none;
         }
@@ -40,7 +40,7 @@
             height: 50px;
             line-height: 50px;
             text-align: center;
-            border-radius:50%;
+            border-radius:50% 0px 0px 50%;
             border: 1px solid black;
             display: none;
         }
@@ -202,9 +202,10 @@
         for(let i=0;i<lis.length;i++){
             lis[i].onclick=function(){
             clearInterval(timer);
-            show.src=imgSrc[++index];
-            for(let i=0;i<lis.length;i++){
-                lis[i].style.backgroundColor="cadetblue";
+            index=i;
+            show.src=imgSrc[index];
+            for(let j=0;j<lis.length;j++){
+                lis[j].style.backgroundColor="cadetblue";
             }
             lis[index].style.backgroundColor="#FF5000";
             timer1();
