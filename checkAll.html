@@ -130,7 +130,6 @@
     function item(){
         let all=0;
         for(let i=0;i<checkboxs.length;i++){
-            
             checkboxs[i].onclick=function(){
                 for(let j=0;j<checkboxs.length;j++){
                     if(checkboxs[j].checked){
@@ -141,8 +140,6 @@
                         }
                     }
                     else{
-                        all--;
-                        let select=document.getElementById("select");
                         select1.checked=false;
                     }
                 }
