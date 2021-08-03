@@ -1,0 +1,205 @@
+<!--
+ @Author:hzy
+ @Date:2021-08-04 01:27:44
+ @LastModifiedBy:hzy
+ @Last Modified time:2021-08-04 01:27:44
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>网易云轮播图</title>
+    <style>
+        *{
+            margin: 0px;
+            padding: 0px;
+        }
+        #Carousel-show{
+            width: 100%;
+            background-image: url(./img/1-bg.jpg);
+            background-size: 6000px;
+            text-align: center;
+            position: relative;
+        }
+        #Carousel-show>img{
+           width: 80%;
+        }
+        .left{
+            position: absolute;
+            left: 4%;
+            top: 50%;
+            margin-top: -31px;
+            width: 37px;
+            height: 62px;
+            color: white;
+            font-size: 50px;
+            text-align: center;
+            line-height: 62px;
+        }
+        .right{
+            position: absolute;
+            right: 4%;
+            top: 50%;
+            margin-top: -31px;
+            width: 37px;
+            height: 62px;
+            color: white;
+            text-align: center;
+            font-size: 50px;
+            line-height: 62px;
+        }
+
+        .left:hover,.right:hover{
+            background-color: rgba(255, 255, 255, .3);
+        }
+
+        #circles{
+            list-style: none;
+            position: absolute;
+            width: 203px;
+            height:18px;
+            left: 50%;
+            margin-left: -101.5px;
+            bottom: 3%;
+        }
+        #circles>li{
+            float: left;
+            width: 9px;
+            height: 9px;
+            margin-right: 20px;
+            background-color: white;
+            border-radius: 50%;
+        }
+        #circles>li:nth-of-type(1){
+            background-color: #B90B0B;
+        }
+
+        
+    </style>
+</head>
+<body>
+    <div id="Carousel-show">
+        <div class="left">
+            &lt;
+        </div>
+        <div class="right">
+            &gt;
+        </div>
+        <img src="./img/1.jpg">
+        <ul id="circles">
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+        </ul>
+    </div>
+    <script>
+        /*
+        1.搞一个数组存放图片路径
+        2.搞一个数组存放背景图片路径
+        */
+        let imgSrc=["./img/1.jpg","./img/2.jpg","./img/3.jpg","./img/4.jpg","./img/5.jpg","./img/6.jpg","./img/7.jpg"];
+        let bgSrc=['./img/1-bg.jpg','./img/2-bg.jpg','./img/3-bg.jpg','./img/4-bg.jpg','./img/5-bg.jpg','./img/6-bg.jpg','./img/7-bg.jpg'];
+
+        function changeStyle(index1){
+            for(let i=0;i<lis.length;i++){
+                lis[i].style.backgroundColor="white";
+            }
+            lis[index1].style.backgroundColor="#B90B0B";
+        }
+
+       
+        /*
+        自动切换背景图和图片
+        */
+        let Carousel=document.getElementById("Carousel-show");
+        let imgShow=document.querySelector("#Carousel-show>img");
+        let lis=document.querySelectorAll("#circles>li");
+        let index=0;//记录图片的索引
+        let timer=setInterval(function(){
+            if(index==imgSrc.length-1){
+                index=-1;
+            }
+            Carousel.style.backgroundImage="url("+bgSrc[++index]+")";
+            imgShow.src=imgSrc[index];
+            changeStyle(index);
+        },3000)
+
+        function timer1(index1,all){
+            timer=setInterval(function(){
+                if(index1==imgSrc.length-1){
+                    index1=-1;
+                }
+                Carousel.style.backgroundImage="url("+bgSrc[++index1]+")";
+                imgShow.src=imgSrc[index1];
+                changeStyle(index1);
+            },all)
+        }
+        /*
+        点击上一张和下一张切换图片和背景图
+        */
+       let left=document.getElementsByClassName("left");
+       let right=document.getElementsByClassName("right");
+       
+       left[0].onclick=function(){
+           clearInterval(timer);
+           if(index==0){
+               index=imgSrc.length-1;
+               Carousel.style.backgroundImage="url("+bgSrc[index]+")";
+               imgShow.src=imgSrc[index];
+               changeStyle(index);
+           }
+           else{
+                Carousel.style.backgroundImage="url("+bgSrc[--index]+")";
+                imgShow.src=imgSrc[index];
+                changeStyle(index);
+           }
+
+           timer1(index,3000);
+       }
+
+       right[0].onclick=function(){
+           clearInterval(timer);
+           if(index==imgSrc.length-1){
+               index=0;
+               Carousel.style.backgroundImage="url("+bgSrc[index]+")";
+               imgShow.src=imgSrc[index];
+               changeStyle(index);
+           }
+           else{
+                Carousel.style.backgroundImage="url("+bgSrc[++index]+")";
+                imgShow.src=imgSrc[index];
+                changeStyle(index);
+           }
+           timer1(index,3000);
+       }
+
+       for(let i=0;i<lis.length;i++){
+            lis[i].onclick=function(){
+               clearInterval(timer);
+               index=i;
+               Carousel.style.backgroundImage="url("+bgSrc[index]+")";
+               imgShow.src=imgSrc[index];
+               changeStyle(index);
+               timer1(index,3000);
+            }
+
+            lis[i].onmouseover=function(){
+                lis[i].style.backgroundColor="#B90B0B";
+            }
+            lis[i].onmouseleave=function(){
+                if(i!=index){
+                    lis[i].style.backgroundColor="white";
+                }
+               
+            }
+       }
+    </script>
+</body>
+</html>
