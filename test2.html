@@ -65,12 +65,18 @@
             disSelect.onclick=function(){
                 for(let i=0;i<checkboxs.length;i++){
                     checkboxs[i].checked=!checkboxs[i].checked;
+                }
+                for(let i=0;i<checkboxs.length;i++){
                     if(checkboxs[i].checked){
                         all++;
                     }
                 }
                 if(all==checkboxs.length){
                     select1.checked=true;
+                    all=0;
+                }
+                else{
+                    select1.checked=false;
                 }
             }
         }
@@ -126,18 +132,21 @@
         for(let i=0;i<checkboxs.length;i++){
             
             checkboxs[i].onclick=function(){
-               
-                if(checkboxs[i].checked){
-                    all++;
-                    if(all==checkboxs.length){
-                        select1.checked=true;
+                for(let j=0;j<checkboxs.length;j++){
+                    if(checkboxs[j].checked){
+                        all++;
+                        if(all==checkboxs.length){
+                            select1.checked=true;
+                            all=0;
+                        }
+                    }
+                    else{
+                        all--;
+                        let select=document.getElementById("select");
+                        select1.checked=false;
                     }
                 }
-                else{
-                    all--;
-                    let select=document.getElementById("select");
-                    select1.checked=false;
-                }
+               
             } 
         }
     }
