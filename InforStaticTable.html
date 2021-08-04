@@ -1,0 +1,651 @@
+<!--
+ @Author:hzy
+ @Date:2021-08-05 00:30:34
+ @LastModifiedBy:hzy
+ @Last Modified time:2021-08-05 00:30:34
+-->
+
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>表格的增删查改</title>
+    <style>
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        table {
+            border: 1px solid #000;
+            border-collapse: collapse;
+            text-align: center;
+            margin: 0px auto;
+        }
+
+        th,
+        td {
+            border: 1px solid #000;
+            padding: 5px 0px;
+        }
+
+        th {
+            width: 200px;
+        }
+
+        thead>tr:nth-of-type(odd) {
+            background-color: palegreen;
+        }
+
+        tbody>tr:nth-of-type(odd) {
+            background-color: skyblue;
+        }
+
+        tbody>tr:nth-of-type(even) {
+            background-color: springgreen;
+        }
+
+        #inputInformation {
+            width: 400px;
+            height: 400px;
+            background-color: cadetblue;
+            top: 100px;
+            position: absolute;
+            left: 50%;
+            margin-left: -200px;
+            text-align: right;
+            display: none;
+        }
+
+        #inputInformation>form>div {
+            margin-right: 100px;
+            margin-top: 30px;
+        }
+
+
+        #inputInformation>form>div>input[type="text"] {
+            padding: 5px 0px 10px 5px;
+            border-radius: 5px 5px 5px 5px;
+            box-sizing: border-box;
+            box-shadow: 0px 0px 10px black;
+            font-size: 18px;
+            outline: none;
+        }
+
+        #inputInformation>form>div>input[type="button"] {
+            display: inline-block;
+            width: 40px;
+        }
+
+        #inputInformation>form>div:nth-of-type(4) {
+            margin-right: 240px;
+        }
+
+
+        #inputInformation>form>div:nth-of-type(4)>label:nth-of-type(1) {
+            margin-left: 20px;
+        }
+
+        #inputInformation>form>div:nth-of-type(4)>input:nth-of-type(1) {
+            margin-right: 20px;
+
+        }
+
+        #inputInformation>form>div:nth-of-type(5) {
+            margin-right: 210px;
+        }
+
+        #inputInformation>form>div:nth-of-type(5)>input:nth-of-type(2) {
+            position: relative;
+            left: 20px;
+        }
+
+        #cuo {
+            position: absolute;
+            top: 0px;
+            right: 5px;
+            font-size: 25px;
+            color: white;
+        }
+
+        #add {
+            margin-right: 20px;
+            margin-left: 30px;
+            margin-top: 20px;
+        }
+
+        #search {
+            margin-left: 30px;
+            margin-top: 30px;
+            margin-right: 20px;
+            padding: 5px 0px 10px 10px;
+            border-radius: 5px 5px 5px 5px;
+            box-sizing: border-box;
+            box-shadow: 0px 0px 10px black;
+            font-size: 18px;
+            outline: none;
+        }
+
+        #search+input {
+            display: inline-block;
+            width: 70px;
+            height: 40px;
+            background-color: #00A1D6;
+            border-radius: 5px;
+            border: 1px solid #00A1D6;
+            color: white;
+        }
+
+        #delete {
+            margin-top: 20px;
+        }
+
+        .delete {
+            margin-right: 6px;
+            text-decoration: underline;
+            text-decoration-color: red;
+            text-decoration-thickness: 5px;
+        }
+
+        .edit {
+            text-decoration: underline;
+            text-decoration-color: blue;
+            text-decoration-thickness: 5px;
+        }
+
+        #tip {
+            margin: 0px auto;
+            width: 300px;
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <button id="add">新增</button><button id="delete">删除</button>
+    <br>
+    <input type="text" id="search">&nbsp;<input type="button" value="搜索">
+    <h1 id="tip">已经没有数据了!!!</h1>
+    <table id="information">
+        <caption>信息统计表</caption>
+        <thead>
+            <tr>
+                <th><input type="checkbox" id="deleteAll" /></th>
+                <th>姓名</th>
+                <th>宿舍号</th>
+                <th>手机号</th>
+                <th>性别</th>
+                <th>功能</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><input type="checkbox" class="deleteIt" /></td>
+                <td>hzy</td>
+                <td>668</td>
+                <td>111111223</td>
+                <td>男</td>
+                <td><span class="delete">删除</span><span class="edit">编辑</span></td>
+            </tr>
+            <tr>
+                <td><input type="checkbox" class="deleteIt" /></td>
+                <td>whh</td>
+                <td>612</td>
+                <td>122321111</td>
+                <td>男</td>
+                <td><span class="delete">删除</span><span class="edit">编辑</span></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div id="inputInformation">
+        <span id="cuo">x</span>
+        <form action="">
+            <div>
+                <label for="name">姓名:</label><input type="text" id="name">
+            </div>
+            <div>
+                <label for="houseNumber">宿舍号:</label><input type="text" id="houseNumber">
+            </div>
+            <div>
+                <label for="phoneNumber">手机号:</label><input type="text" id="phoneNumber">
+            </div>
+            <div>
+                <label>性别:</label> <label for="man">男</label><input type="radio" name="sex" id="man" value="男"><label
+                    for="woman">女</label><input type="radio" name="sex" id="woman" value="女">
+            </div>
+            <div>
+                <input type="button" value="确认" id="yes">
+                <input type="button" value="取消" id="cancel">
+            </div>
+        </form>
+    </div>
+
+    <script>
+        /*
+        获取新增按钮和删除按钮
+        */
+
+        let add = document.getElementById("add");
+        let deleteBtn = document.getElementById("delete");
+
+
+        /*
+        获取四个表单项
+        */
+        let name = document.getElementById("name");
+        let houseNumber = document.getElementById("houseNumber");
+        let phoneNumber = document.getElementById("phoneNumber");
+        let sex = document.getElementsByName("sex");
+        let allInformations = [name, houseNumber, phoneNumber, sex];
+        let isEdit = false;
+
+
+        /*
+        获取提示信息
+        */
+        let tip = document.getElementById("tip");
+
+        /*
+        清空表单的函数
+        */
+        function empty() {
+            for (let i = 0; i < allInformations.length; i++) {
+                if (i == 0) {
+                    name.value = "";
+                }
+                if (i == 1) {
+                    houseNumber.value = "";
+                }
+                if (i == 2) {
+                    phoneNumber.value = "";
+                }
+                if (i == 3) {
+                    for (let i = 0; i < sex.length; i++) {
+                        if (sex[i].checked) {
+                            sex[i].checked = false;
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+
+        /*
+        获取显示框
+        */
+        let inputInformation = document.getElementById("inputInformation");
+        add.onclick = function () {
+            inputInformation.style.display = "inline-block";
+            isEdit = false;
+            empty();
+        }
+
+        /*
+        获取取消按钮
+        */
+
+        let cuo = document.getElementById("cuo");
+        cuo.onclick = function () {
+            inputInformation.style.display = "none";
+            isEdit = false;
+
+        }
+
+
+
+
+        /*
+        搜索框和搜索按钮
+        */
+        let search = document.getElementById("search");
+        let searchBtn = document.querySelector("#search+input");
+
+
+        /*
+        获取显示框的确认按钮和取消按钮
+        */
+        let yes = document.getElementById("yes");
+        let cancel = document.getElementById("cancel");
+        let information = document.getElementById("information");
+        let tbody = document.querySelector("#information>tbody");
+        let deleteMany = document.getElementById("delete");
+        let deleteIts = document.getElementsByClassName("deleteIt");
+        let deleteAll = document.getElementById("deleteAll");
+        let edits = document.getElementsByClassName("edit");
+        let isDelete = false;
+        let all = 0;
+
+        /*
+        新增编辑功能的实现
+        */
+
+        function yes1(index, obj) {
+            yes.onclick = function () {
+                let nameValue = name.value;
+                let houseValue = houseNumber.value;
+                let phoneValue = phoneNumber.value;
+                let sexValue;
+                for (let i = 0; i < sex.length; i++) {
+                    if (sex[i].checked) {
+                        sexValue = sex[i].value;
+                        break;
+                    }
+                }
+                allInformations = [nameValue, houseValue, phoneValue, sexValue];
+                if (!isEdit) {
+                    let newTr = document.createElement("tr");
+                    let firstTd = document.createElement("td");
+                    firstTd.innerHTML = "<input type='checkbox' class='deleteIt'></input>";
+                    newTr.appendChild(firstTd);
+                    for (let i = 0; i < allInformations.length; i++) {
+                        let newTd = document.createElement("td");
+                        let textNode = document.createTextNode(allInformations[i]);
+                        newTd.appendChild(textNode);
+                        newTr.appendChild(newTd);
+                    }
+                    let lastTd = document.createElement("td");
+                    lastTd.innerHTML = "<span class='delete'>删除</span><span class='edit'>编辑</span>";
+                    newTr.appendChild(lastTd);
+                    tbody.appendChild(newTr);
+                    inputInformation.style.display = "none";
+                    let deleteSpans = document.getElementsByClassName("delete");
+                    isDelete = false;
+                    deleteAll.checked = isDelete;
+                    for (let i = 0; i < deleteSpans.length; i++) {
+                        deleteSpans[i].onclick = function () {
+                            this.parentNode.parentNode.parentNode.removeChild(this.parentNode.parentNode);
+                            if (deleteSpans.length == 0) {
+                                tip.style.display = "block";
+                            }
+                        }
+                    }
+                    deleteMany.onclick = function () {
+                        for (let i = 0; i < deleteIts.length; i++) {
+                            if (deleteIts[i].checked) {
+                                deleteIts[i].parentNode.parentNode.parentNode.removeChild(deleteIts[i].parentNode.parentNode);
+                                i--;
+                            }
+                        }
+
+                        if (deleteSpans.length == 0) {
+                            tip.style.display = "block";
+                        }
+                    }
+
+                    deleteAll.onclick = function () {
+                        isDelete = !isDelete;
+                        if (isDelete) {
+                            for (let i = 0; i < deleteIts.length; i++) {
+                                deleteIts[i].checked = true;
+                            }
+                        }
+                        else {
+                            for (let i = 0; i < deleteIts.length; i++) {
+                                deleteIts[i].checked = false;
+                            }
+                        }
+                    }
+
+                    searchBtn.onclick = function () {
+                        let newLis = document.querySelectorAll("#information>tbody>tr");
+                        for (let i = 0; i < newLis.length; i++) {
+                            for (let j = 0; j < newLis[i].children.length; j++) {
+                                if (search.value == newLis[i].children[j].innerText) {
+                                    for (let z = 0; z < newLis[i].children.length; z++) {
+                                        newLis[i].children[z].style.backgroundColor = "gold";
+                                    }
+
+                                    newLis[i].children[j].style.backgroundColor = "red";
+                                }
+                            }
+                        }
+                    }
+
+
+                    search.oninput = function () {
+                        let newLis = document.querySelectorAll("#information>tbody>tr");
+                        if (search.value == "") {
+                            for (let i = 0; i < newLis.length; i++) {
+                                for (let j = 0; j < newLis[i].children.length; j++) {
+                                    if (i % 2 == 0) {
+                                        newLis[i].children[j].style.backgroundColor = "skyblue";
+                                    }
+                                    else {
+                                        newLis[i].children[j].style.backgroundColor = "springgreen";
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    empty();
+                    for (let i = 0; i < deleteIts.length; i++) {
+                        deleteIts[i].onclick = function () {
+                            all = 0;
+                            if (isDelete) {
+                                isDelete = !isDelete;
+                                deleteAll.checked = isDelete;
+                            }
+                            else {
+                                for (let i = 0; i < deleteIts.length; i++) {
+                                    if (deleteIts[i].checked) {
+                                        all++;
+                                    }
+
+                                    if (all == deleteIts.length) {
+                                        isDelete = !isDelete;
+                                        deleteAll.checked = isDelete;
+                                        all = 0;
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    for (let i = 0; i < edits.length; i++) {
+                        edits[i].onclick = function () {
+                            isEdit = true;
+                            inputInformation.style.display = "inline-block";
+                            let trs = document.querySelectorAll("#information>tbody>tr");
+                            for (let j = 0; j < trs[i].children.length; j++) {
+                                if (j == 1) {
+                                    name.value = trs[i].children[j].innerText;
+                                }
+
+                                else if (j == 2) {
+                                    houseNumber.value = trs[i].children[j].innerText;
+                                }
+
+                                else if (j == 3) {
+                                    phoneNumber.value = trs[i].children[j].innerText;
+                                }
+
+                                else if (j == 4) {
+                                    if (trs[i].children[j].innerText == "男") {
+                                        sex[0].checked = true;
+                                    }
+                                    else {
+                                        sex[1].checked = true;
+                                    }
+                                }
+                            }
+                            yes1(i, trs);
+                        }
+                    }
+                }
+                else {
+
+                    for (let i = 0; i < obj[index].children.length; i++) {
+                        if (i != 0 && i != 5) {
+                            obj[index].children[i].innerText = allInformations[i - 1];
+                        }
+                    }
+
+                    empty();
+                    inputInformation.style.display = "none";
+                    isEdit = false;
+                }
+            }
+        }
+
+        yes1();
+
+        /*
+        删除单元格的获取
+        */
+
+
+        /*
+        通过删除单元格删除单个元素功能的实现
+        */
+        let deleteSpans = document.getElementsByClassName("delete");
+        for (let i = 0; i < deleteSpans.length; i++) {
+            deleteSpans[i].onclick = function () {
+                this.parentNode.parentNode.parentNode.removeChild(this.parentNode.parentNode);
+                if (deleteSpans.length == 0) {
+                    tip.style.display = "block";
+                }
+            }
+        }
+
+        /*
+        批量删除的功能的实现
+        */
+        deleteMany.onclick = function () {
+            for (let i = 0; i < deleteIts.length; i++) {
+                if (deleteIts[i].checked) {
+                    deleteIts[i].parentNode.parentNode.parentNode.removeChild(deleteIts[i].parentNode.parentNode);
+                    i--;
+                }
+            }
+            if (deleteSpans.length == 0) {
+                tip.style.display = "block";
+            }
+        }
+
+
+        /*
+        全部删除功能的实现
+        */
+
+
+        deleteAll.onclick = function () {
+            isDelete = !isDelete;
+            if (isDelete) {
+                for (let i = 0; i < deleteIts.length; i++) {
+                    deleteIts[i].checked = true;
+                }
+            }
+            else {
+                for (let i = 0; i < deleteIts.length; i++) {
+                    deleteIts[i].checked = false;
+                }
+            }
+
+        }
+
+
+
+        for (let i = 0; i < deleteIts.length; i++) {
+            deleteIts[i].onclick = function () {
+                all = 0;
+                if (isDelete) {
+                    isDelete = !isDelete;
+                    deleteAll.checked = isDelete;
+                }
+                else {
+                    for (let i = 0; i < deleteIts.length; i++) {
+                        if (deleteIts[i].checked) {
+                            all++;
+                        }
+
+                        if (all == deleteIts.length) {
+                            isDelete = !isDelete;
+                            deleteAll.checked = isDelete;
+                            all = 0;
+                        }
+                    }
+                }
+            }
+        }
+
+
+        /*
+        编辑功能的实现
+        */
+
+        for (let i = 0; i < edits.length; i++) {
+            edits[i].onclick = function () {
+                isEdit = true;
+                inputInformation.style.display = "inline-block";
+                let trs = document.querySelectorAll("#information>tbody>tr");
+                for (let j = 0; j < trs[i].children.length; j++) {
+                    if (j == 1) {
+                        name.value = trs[i].children[j].innerText;
+                    }
+
+                    else if (j == 2) {
+                        houseNumber.value = trs[i].children[j].innerText;
+                    }
+
+                    else if (j == 3) {
+                        phoneNumber.value = trs[i].children[j].innerText;
+                    }
+
+                    else if (j == 4) {
+                        if (trs[i].children[j].innerText == "男") {
+                            sex[0].checked = true;
+                        }
+                        else {
+                            sex[1].checked = true;
+                        }
+                    }
+                }
+                yes1(i, trs);
+            }
+        }
+
+
+
+        /*
+        搜索功能的实现
+        */
+        searchBtn.onclick = function () {
+            let newLis = document.querySelectorAll("#information>tbody>tr");
+            for (let i = 0; i < newLis.length; i++) {
+                for (let j = 0; j < newLis[i].children.length; j++) {
+                    if (search.value == newLis[i].children[j].innerText) {
+                        for (let z = 0; z < newLis[i].children.length; z++) {
+                            newLis[i].children[z].style.backgroundColor = "gold";
+                        }
+
+                        newLis[i].children[j].style.backgroundColor = "red";
+                    }
+                }
+            }
+        }
+
+
+        search.oninput = function () {
+            let newLis = document.querySelectorAll("#information>tbody>tr");
+            if (search.value == "") {
+                for (let i = 0; i < newLis.length; i++) {
+                    for (let j = 0; j < newLis[i].children.length; j++) {
+                        if (i % 2 == 0) {
+                            newLis[i].children[j].style.backgroundColor = "skyblue";
+                        }
+                        else {
+                            newLis[i].children[j].style.backgroundColor = "springgreen";
+                        }
+                    }
+                }
+            }
+        }
+
+    </script>
+</body>
+
+</html>
